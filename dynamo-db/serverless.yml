@@ -1,0 +1,42 @@
+service: sequelize-orm
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  timeout: 60
+  stage: dev
+  environment: ${file(env.yml):${self:custom.stage}}
+  profile: <desired_profile>
+  region: <desired_region>
+    
+functions:
+  createEmployees:
+    handler: src/index.createEmployees
+    events:
+          - http:
+              method: post
+              path: employees/create_employee
+              cors:
+                origin: '*'
+                headers:
+                  - Content-Type
+                  - X-Amz-Date
+                  - Authorization
+                  - X-Api-Key
+                  - X-Amz-Security-Token
+                  - X-Amz-User-Agent
+                allowCredentials: false
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+package:
+  individually: true
+
+custom:
+  serverless-offline:
+    babelOptions:
+      presets: ["es2017"]
+
+  stage: "${opt:stage, self:provider.stage}"

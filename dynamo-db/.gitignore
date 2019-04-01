@@ -1,0 +1,20 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# Webpack directories
+.webpack
+
+#test account details
+output.json
+testdata.json
+data.json
+.eslintcache
+flow-typed
+.vscode
+
+
+src
